@@ -10,10 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
@@ -26,9 +23,19 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
-    @RequestMapping("/hello")
-    public String hello(){
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    public String Hello(){
         return "Hello world";
+    }
+
+    @RequestMapping(value = "/googleauth", method = RequestMethod.GET)
+    public String GooglAauth(){
+        return "google authentication successful!";
+    }
+
+    @RequestMapping(value = "/ldapauth", method = RequestMethod.GET)
+    public String LdapAuth(){
+        return "ldap authentication successful!";
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -48,4 +55,13 @@ public class AuthController {
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
+
+    @RequestMapping(value = "/extendtoken", method = RequestMethod.POST)
+    public ResponseEntity<?> createNewAuthenticationToken(@RequestHeader("Authorization") String token) throws Exception {
+
+        final String jwt = jwtTokenUtil.refreshToken(token);
+
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
+
 }

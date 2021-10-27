@@ -54,4 +54,12 @@ public class JwtUtil {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    public String refreshToken(String token) {
+
+        token = token.substring(7);
+        String userName = extractUsername(token);
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, userName);
+    }
 }
