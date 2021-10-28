@@ -25,10 +25,10 @@ public class AuthController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String Hello(){
-        return "Hello world";
+        return "auhentication successfull";
     }
 
-    @RequestMapping(value = "/googleauth", method = RequestMethod.GET)
+    @GetMapping("/googleauth")
     public String GooglAauth(){
         return "google authentication successful!";
     }
